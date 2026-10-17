@@ -1,6 +1,16 @@
 'use strict';
 const projects = {
   exchango: {
+    galleryLayout: 'wide',
+    galleryHeading: "Design prototype",
+    galleryHint: "Screenshots from the project documentation. Open an image to inspect it at full size.",
+    screenshots: [
+      {"src": "assets/exchango-social.jpg", "width": 1446, "height": 976, "alt": "ExchanGo social hub, travel partner matching and trip filters", "caption": "Social hub — trip discovery, travel-partner matching and filters in the design prototype."},
+      {"src": "assets/exchango-itinerary.jpg", "width": 1376, "height": 962, "alt": "ExchanGo itinerary with activity details, map and schedule", "caption": "Itinerary — trip activities, place details and map exploration."},
+      {"src": "assets/exchango-expenses.jpg", "width": 1818, "height": 988, "alt": "ExchanGo budget overview, currency conversion and expense splitting", "caption": "Expenses — budget overview, currency conversion and group expense splitting."},
+      {"src": "assets/exchango-planning.jpg", "width": 1370, "height": 988, "alt": "ExchanGo accommodation options and group planning polls", "caption": "Group planning — accommodation options and polls for shared decisions."},
+      {"src": "assets/exchango-safety.jpg", "width": 1384, "height": 994, "alt": "ExchanGo shared travel documents, location sharing and emergency contacts", "caption": "Travel essentials — shared documents, location sharing and emergency contacts."}
+    ],
     name: 'Exchango', label: 'INTERACTION DESIGN COURSE PROJECT · 2026',
     intro: 'A travel companion concept for exchange students, supported by a responsive case study that makes the research and design decisions easy to explore.',
     tags: ['Figma', 'React', 'Next.js', 'TypeScript', 'Vercel'],
@@ -10,13 +20,23 @@ const projects = {
     links: [{label: 'View portfolio', url: 'https://exchango-portfolio.framer.website/'}, {label: 'Explore web case study', url: 'https://v0-exchango-social-hub.vercel.app/'}, {label: 'View source', url: 'https://github.com/XJie97/exchango-Social-Hub'}]
   },
   educonnect: {
+    galleryLayout: 'wide',
+    galleryHeading: "From the user guide",
+    galleryHint: "Screenshots from the project documentation. Open an image to inspect it at full size.",
+    screenshots: [
+      {"src": "assets/educonnect-contacts.png", "width": 1458, "height": 1190, "alt": "EduConnect desktop interface showing student contacts and tuition sessions", "caption": "Contact list — student details, subject tags and scheduled tuition sessions."},
+      {"src": "assets/educonnect-add.png", "width": 1316, "height": 978, "alt": "EduConnect add command creating a parent contact", "caption": "Add a contact — creating a parent record with contact details."},
+      {"src": "assets/educonnect-edit.png", "width": 1347, "height": 983, "alt": "EduConnect edit command updating a student contact", "caption": "Edit a contact — updating student details and subject tags."},
+      {"src": "assets/educonnect-find.png", "width": 943, "height": 697, "alt": "EduConnect find command filtering student contacts by subject", "caption": "Find contacts — filtering students by role and subject tags."},
+      {"src": "assets/educonnect-delete.png", "width": 1313, "height": 976, "alt": "EduConnect delete command removing a contact", "caption": "Delete a contact — confirmation and the updated contact list."}
+    ],
     name: 'EduConnect', label: 'SOFTWARE ENGINEERING TEAM PROJECT · OCT – NOV 2025',
     intro: 'A Java application for tuition management, with my contributions focused on contact lookup, weekday session retrieval and predictable schedule presentation.',
     tags: ['Java 17', 'JavaFX', 'JUnit 5', 'Gradle', 'PlantUML'],
     context: 'Tutors need to retrieve student contact details and review tuition sessions without ambiguity. Reliable command behaviour and consistent ordering make these workflows easier to use.',
     contributions: ['Implemented two lookup commands for contact details and weekday tuition sessions.', 'Added chronological sorting with student-name tie-breaks for predictable schedule review.', 'Added six test classes covering lookup commands, parsers and formatting, including valid and invalid inputs.', 'Documented the features using UML diagrams and user guides.'],
     focus: 'Focused feature ownership within a team codebase, deterministic output, input validation and maintainable documentation.',
-    links: [{label: 'View team repository', url: 'https://github.com/AY2526S1-CS2103-F11-1/tp'}]
+    links: [{label: 'Read user guide', url: 'https://ay2526s1-cs2103-f11-1.github.io/tp/UserGuide.html'}, {label: 'View team repository', url: 'https://github.com/AY2526S1-CS2103-F11-1/tp'}]
   },
   progresspal: {
     screenshots: [
@@ -99,8 +119,8 @@ function openProject(key, trigger) {
   const tags = node('div', '', 'tags'); project.tags.forEach(tag => tags.append(node('span', tag))); content.append(tags);
   dialog.classList.toggle('has-screenshots', Boolean(project.screenshots?.length));
   if (project.screenshots?.length) {
-    content.append(node('h3', 'Inside the app'), node('p', 'Original screenshots. Open an image to inspect it at full size.', 'gallery-hint'));
-    const gallery = node('div', '', 'screenshot-gallery' + (project.screenshots.length === 1 ? ' single' : ''));
+    content.append(node('h3', project.galleryHeading || 'Inside the app'), node('p', project.galleryHint || 'Original screenshots. Open an image to inspect it at full size.', 'gallery-hint'));
+    const gallery = node('div', '', 'screenshot-gallery' + (project.screenshots.length === 1 || project.galleryLayout === 'wide' ? ' single' : ''));
     project.screenshots.forEach(shot => {
       const figure = node('figure');
       const link = node('a'); link.href = shot.src; link.target = '_blank'; link.rel = 'noopener noreferrer';

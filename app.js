@@ -19,6 +19,10 @@ const projects = {
     links: [{label: 'View team repository', url: 'https://github.com/AY2526S1-CS2103-F11-1/tp'}]
   },
   progresspal: {
+    screenshots: [
+      { src: 'assets/progress-pal-home.jpg', width: 576, height: 1280, alt: 'Progress Pal home screen on Android', caption: 'Home screen — app navigation and quick workout selection. Captured on Xiaomi 13T.' },
+      { src: 'assets/progress-pal-workout.jpg', width: 576, height: 1280, alt: 'Progress Pal workout logger with sets, weights, repetitions, RPE and rest timers', caption: 'Workout logging — record sets, weight, repetitions and RPE, with rest-timer controls. Captured on Xiaomi 13T.' }
+    ],
     name: 'Progress Pal', label: 'NUS ORBITAL PROJECT · MAY – JUL 2024',
     intro: 'A strength-training application built for Android and iOS from a shared React Native codebase. Delivered at NUS Orbital’s Apollo 11 (Advanced) level.',
     tags: ['JavaScript', 'React Native', 'Expo', 'Firebase', 'AsyncStorage'],
@@ -28,6 +32,9 @@ const projects = {
     links: []
   },
   tkit: {
+    screenshots: [
+      { src: 'assets/tkit-windows.png', width: 1393, height: 1032, alt: 'Tkit JavaFX chat interface on Windows, adding a task and marking it complete', caption: 'JavaFX interface on Windows — entering commands to add, complete and list tasks.' }
+    ],
     name: 'Tkit', label: 'INDIVIDUAL SOFTWARE ENGINEERING PROJECT · AUG – OCT 2025',
     intro: 'A task manager with ten commands and three task types, accessible through both a command-line interface and a JavaFX interface.',
     tags: ['Java 17', 'JavaFX', 'JUnit', 'Gradle', 'Checkstyle'],
@@ -90,6 +97,20 @@ function openProject(key, trigger) {
   const heading = node('h2', project.name); heading.id = 'dialog-title'; content.append(heading);
   content.append(node('p', project.intro, 'dialog-intro'));
   const tags = node('div', '', 'tags'); project.tags.forEach(tag => tags.append(node('span', tag))); content.append(tags);
+  dialog.classList.toggle('has-screenshots', Boolean(project.screenshots?.length));
+  if (project.screenshots?.length) {
+    content.append(node('h3', 'Inside the app'), node('p', 'Original screenshots. Open an image to inspect it at full size.', 'gallery-hint'));
+    const gallery = node('div', '', 'screenshot-gallery' + (project.screenshots.length === 1 ? ' single' : ''));
+    project.screenshots.forEach(shot => {
+      const figure = node('figure');
+      const link = node('a'); link.href = shot.src; link.target = '_blank'; link.rel = 'noopener noreferrer';
+      link.setAttribute('aria-label', 'Open full-size image: ' + shot.alt);
+      const img = node('img'); img.src = shot.src; img.alt = shot.alt;
+      img.width = shot.width; img.height = shot.height; img.decoding = 'async';
+      link.append(img); figure.append(link, node('figcaption', shot.caption)); gallery.append(figure);
+    });
+    content.append(gallery);
+  }
   content.append(node('h3', 'The context'), node('p', project.context), node('h3', 'My contribution'));
   const list = node('ul'); project.contributions.forEach(item => list.append(node('li', item))); content.append(list);
   content.append(node('h3', 'Engineering & design focus'), node('p', project.focus));

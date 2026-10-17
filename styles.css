@@ -6,3 +6,26 @@
 @media(max-width:370px){.wordmark .wordmark-name{display:none}.hero-top{gap:12px}.hero-location{font-size:7px}.hero-actions{gap:18px}.hero-art{height:300px}.p1{left:5%}.p2{right:2%}.p3{right:5%}.p4{left:2%}.hero-top .eyebrow{font-size:7px}.project-visual{height:300px}.browser-window{left:19px;right:19px;top:49px}.edu-window{left:17px;right:17px;top:49px}.phone{right:22px;width:141px;height:285px}.phone-content{padding:10px}.phone-content h3{font-size:17px}.exercise{padding:8px 0}.progress-caption{left:20px}.progress-caption>span{font-size:22px}.progress-caption em{font-size:24px}.terminal{left:17px;right:17px;top:47px}.terminal-body{padding:12px;font-size:8px}.terminal-body h3{font-size:23px;margin-bottom:10px}.contact-heading h2{font-size:31px}.contact-arrow{width:44px;height:44px}.about-facts{gap:17px}}
 @media(prefers-reduced-motion:reduce){html{scroll-behavior:auto}*,*:before,*:after{animation:none!important;transition:none!important}}
 @media print{.header,.hero-art,.hero-actions,.hero-foot>a,.filters,.project-visual,.round-link,.site-note,.contact-arrow,.copy-button,dialog,.socials{display:none!important}body{background:white;color:black;font-size:11pt}.wrap{max-width:none;padding:0}.hero,.section,.about-section,.contact-section{padding:20px 0}.hero-grid,.about-grid{display:block;padding:0}.hero-description{max-width:none}h1{font-size:36pt}h2{font-size:23pt}.projects{gap:20px}.project,.timeline article{break-inside:avoid}.about-copy{margin-top:20px}.contact-section{background:white;color:black}.contact-heading h2{font-size:25pt}.contact-description,.contact-section .eyebrow,.contact-heading .serif,.contact-section footer{color:black}.contact-links{padding-bottom:10px;margin-top:15px}.contact-section footer{border-color:#aaa}.section-heading{margin-bottom:20px}}
+
+/* Actual app captures: keep every screenshot complete and proportional. */
+.screenshot-preview { border: 1px solid var(--line); }
+.screenshot-stage { position: absolute; inset: 46px 24px 38px; display: flex; align-items: center; justify-content: center; gap: 20px; }
+.screenshot-stage img { display: block; min-width: 0; width: 100%; height: 100%; object-fit: contain; }
+.screenshot-pair img { width: calc((100% - 20px) / 2); }
+.screenshot-preview .visual-note { opacity: 1; }
+dialog.has-screenshots { width: min(960px, calc(100% - 32px)); }
+.screenshot-gallery { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 24px; margin: 0 0 30px; }
+.screenshot-gallery.single { grid-template-columns: 1fr; }
+.screenshot-gallery figure { margin: 0; min-width: 0; }
+.screenshot-gallery a { display: block; border: 1px solid var(--line); border-radius: 4px; padding: 10px; background: var(--panel); }
+.screenshot-gallery img { display: block; width: 100%; height: auto; }
+.screenshot-gallery figcaption { font-size: 11px; line-height: 1.7; color: var(--muted); margin-top: 9px; }
+.gallery-hint { margin: 0 0 16px; }
+@media(max-width:760px) {
+ .screenshot-stage { inset: 45px 18px 40px; gap: 14px; }
+ .screenshot-pair img { width: calc((100% - 14px) / 2); }
+ .screenshot-preview .visual-label { left: 18px; font-size: 8px; }
+ .screenshot-preview .visual-note { left: 18px; right: 18px; font-size: 8px; }
+ .screenshot-gallery { gap: 20px; grid-template-columns: 1fr; }
+ .screenshot-gallery:not(.single) figure { max-width: 360px; margin-inline: auto; }
+}

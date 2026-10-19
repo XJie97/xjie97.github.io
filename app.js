@@ -1,5 +1,84 @@
 'use strict';
 const projects = {
+  squatvision: {
+    "name": "SquatVision",
+    "label": "PERSONAL COMPUTER VISION PROJECT · OCT 2026 – PRESENT · WIP",
+    "intro": "A Python tool that analyses recorded squat videos using pose estimation, movement phases and diagnostic exports. The core analysis works on the reference footage; automatic IPF-standard anatomical depth judging remains experimental.",
+    "tags": [
+        "Python",
+        "MediaPipe",
+        "OpenCV",
+        "NumPy",
+        "Computer vision",
+        "unittest"
+    ],
+    "context": "Squat depth combines a precise rule with a difficult visual judgement: the required anatomical surfaces can be obscured by clothing, body overlap and camera position. I chose a squat-first scope to understand this problem and refine one complete feature before expanding to other lifts.",
+    "contributions": [
+        "Built a video-analysis pipeline for hip and knee angles, repetition counting, movement-phase timestamps, minimum knee-angle frame selection and bottom-pause estimation, with annotated video, JSON and CSV outputs.",
+        "Investigated whole-person segmentation, pose-guided boundaries, RGB gradients, optical flow and temporal consistency to propose anatomical reference points. Unreliable measurements remain UNAVAILABLE.",
+        "Developed manual annotation and diagnostic review workflows, including magnified source images and segmentation masks, to inspect proposals against actual footage.",
+        "Used AI-assisted software development and prompt engineering for rapid prototyping, debugging and regression-test development, with tests, documentation and Git checkpoints supporting iteration."
+    ],
+    "focus": "The project brings together Python software engineering, pretrained-model integration, video data preparation, powerlifting coaching knowledge and product scoping. An important engineering lesson is to distinguish stable tracking and plausible image edges from evidence of the correct anatomy.",
+    "status": "Working baseline: recorded-video pose and angle analysis, repetition and movement-phase detection, bottom-frame selection, pause estimation, exports and manual review. Work in progress: reliable automatic anatomical surface detection and IPF depth assessment. The latest confirmed reference run accepted no automatic surface pairs; these screenshots demonstrate diagnostics, not judging accuracy.",
+    "roadmap": "Planned: refine squat analysis first, then add bench press and deadlift attempt detection against IPF requirements. A future Android/iOS workflow would accept a phone video and return preliminary, lift-specific timing and assessment, including start, descent where applicable, pause, ascent, lockout and failed or bailed attempts. Mobile import, bench/deadlift support and reliable failure classification are not current capabilities.",
+    "galleryHeading": "Reference-video evidence",
+    "galleryHint": "Unaltered development captures. Phase labels show the current analysis; surface diagnostics expose the unresolved depth problem. Open an image for the original resolution.",
+    "screenshots": [
+        {
+            "src": "assets/squatvision-descent-start.png",
+            "width": 352,
+            "height": 640,
+            "alt": "SquatVision overlay identifying descent start at 70.057 seconds",
+            "caption": "Descent start · 70.057 s. Joint-angle and event overlays from the reference video."
+        },
+        {
+            "src": "assets/squatvision-descent-end.png",
+            "width": 352,
+            "height": 640,
+            "alt": "SquatVision overlay identifying descent end with depth unavailable",
+            "caption": "Descent end · 72.758 s. Phase detection is separate from anatomical depth judging; the latter remains unavailable."
+        },
+        {
+            "src": "assets/squatvision-ascent-start.png",
+            "width": 352,
+            "height": 640,
+            "alt": "SquatVision overlay identifying ascent start at 73.591 seconds",
+            "caption": "Ascent start · 73.591 s. Timing supports analysis of the transition at the bottom of the squat."
+        },
+        {
+            "src": "assets/squatvision-lockout.png",
+            "width": 352,
+            "height": 640,
+            "alt": "SquatVision overlay identifying lockout at 75.759 seconds",
+            "caption": "Lockout · 75.759 s. An application event label, not a validated competition judging decision."
+        },
+        {
+            "src": "assets/squatvision-surface-review.jpg",
+            "width": 1000,
+            "height": 1090,
+            "alt": "SquatVision surface diagnostic frame 2198",
+            "caption": "Surface review · frame 2198. Diagnostic evidence for investigating anatomical landmark proposals."
+        },
+        {
+            "src": "assets/squatvision-surface-closeups.jpg",
+            "width": 840,
+            "height": 972,
+            "alt": "Magnified hip and knee image regions with segmentation masks and rejected boundaries",
+            "caption": "Anatomical uncertainty · original pixels and masks. Joint centres and clothing seams do not establish the thigh and knee surfaces required for depth assessment."
+        }
+    ],
+    "links": [
+        {
+            "label": "Explore development branch",
+            "url": "https://github.com/XJie97/squatvision/tree/experiment/ipf-depth-v6"
+        },
+        {
+            "label": "Read project status",
+            "url": "https://github.com/XJie97/squatvision/blob/stable/squatvision-core-depth-wip/PROJECT_STATUS.md"
+        }
+    ]
+},
   exchango: {
     galleryLayout: 'wide',
     galleryHeading: "Design prototype",
@@ -99,7 +178,7 @@ document.querySelectorAll('.filter').forEach(button => button.addEventListener('
   });
   let visible = 0;
   cards.forEach(card => {
-    card.hidden = button.dataset.filter !== 'all' && card.dataset.category !== button.dataset.filter;
+    card.hidden = button.dataset.filter !== 'all' && !card.dataset.category.split(' ').includes(button.dataset.filter);
     if (!card.hidden) visible++;
   });
   document.querySelector('#filter-status').textContent = `Showing ${visible} ${visible === 1 ? 'project' : 'projects'}`;
@@ -118,8 +197,10 @@ function openProject(key, trigger) {
   content.append(node('p', project.intro, 'dialog-intro'));
   const tags = node('div', '', 'tags'); project.tags.forEach(tag => tags.append(node('span', tag))); content.append(tags);
   dialog.classList.toggle('has-screenshots', Boolean(project.screenshots?.length));
+  const evidence = document.createDocumentFragment();
+  const galleryTarget = key === 'squatvision' ? evidence : content;
   if (project.screenshots?.length) {
-    content.append(node('h3', project.galleryHeading || 'Inside the app'), node('p', project.galleryHint || 'Original screenshots. Open an image to inspect it at full size.', 'gallery-hint'));
+    galleryTarget.append(node('h3', project.galleryHeading || 'Inside the app'), node('p', project.galleryHint || 'Original screenshots. Open an image to inspect it at full size.', 'gallery-hint'));
     const gallery = node('div', '', 'screenshot-gallery' + (project.screenshots.length === 1 || project.galleryLayout === 'wide' ? ' single' : ''));
     project.screenshots.forEach(shot => {
       const figure = node('figure');
@@ -129,11 +210,14 @@ function openProject(key, trigger) {
       img.width = shot.width; img.height = shot.height; img.decoding = 'async';
       link.append(img); figure.append(link, node('figcaption', shot.caption)); gallery.append(figure);
     });
-    content.append(gallery);
+    galleryTarget.append(gallery);
   }
   content.append(node('h3', 'The context'), node('p', project.context), node('h3', 'My contribution'));
   const list = node('ul'); project.contributions.forEach(item => list.append(node('li', item))); content.append(list);
   content.append(node('h3', 'Engineering & design focus'), node('p', project.focus));
+  if (project.status) content.append(node('h3', 'Current capability & validation'), node('p', project.status));
+  if (project.roadmap) content.append(node('h3', 'Planned development'), node('p', project.roadmap));
+  if (key === 'squatvision') content.append(evidence);
   if (project.links.length) {
     const links = node('div', '', 'dialog-links');
     project.links.forEach((link, i) => { const a = node('a', `${link.label} ↗`, `button ${i === 0 ? 'primary' : 'secondary'}`); a.href = link.url; a.target = '_blank'; a.rel = 'noopener noreferrer'; links.append(a); });

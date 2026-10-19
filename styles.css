@@ -33,3 +33,20 @@ dialog.has-screenshots { width: min(960px, calc(100% - 32px)); }
  .screenshot-gallery { gap: 20px; grid-template-columns: 1fr; }
  .screenshot-gallery:not(.single) figure { max-width: 360px; margin-inline: auto; }
 }
+
+/* SquatVision and project-linked skills preserve the existing portfolio theme. */
+.squatvision-feature { grid-column: 1 / -1; display: grid; grid-template-columns: 1.15fr 1fr; gap: 32px; align-items: center; }
+.project-visual.squatvision { background: var(--panel); height: 430px; color: var(--ink); }
+.squatvision-feature .project-info { margin-top: 0; }
+.project-info .project-status { font-size: 12px; line-height: 1.9; margin-top: 18px; }
+.skill-evidence { display: block; text-align: left; background: none; color: var(--ink); font: inherit; font-size: 11px; line-height: 1.7; padding: 0; margin-top: 14px; text-decoration: underline; text-underline-offset: 4px; }
+.evidence-skills > div { border-bottom: 1px solid var(--line); }
+.evidence-skills > div:nth-child(3n+1) { border-left: 0; padding-left: 0; }
+.academic-note { font-size: 12px; line-height: 1.9; color: var(--muted); margin-top: 22px; max-width: 850px; }
+@media(max-width:760px) {
+ .squatvision-feature { display: block; }
+ .project-visual.squatvision { height: 350px; }
+ .squatvision-feature .project-info { margin-top: 20px; }
+ .evidence-skills > div:nth-child(3n+1) { padding-left: 43px; }
+}
+@media print { .squatvision-feature { display: block; } .skill-evidence { display: none; } }
